@@ -1,0 +1,23 @@
+﻿services:
+  web:
+    image: web
+    build:
+      context: .
+      dockerfile: Web/Dockerfile
+    ports:
+      - "5131:8080"
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "4758:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
