@@ -1,6 +1,5 @@
-using MediatR;
 using Service.Features.Demonstration;
-using Shared.Features.Demonstration;
+using Web.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,18 +20,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/weatherforecast", async (IMediator mediator) =>
-    {
-        var forecasts = await mediator.Send(new GetWeatherForecastCommand());
-        return forecasts;
-    })
-    .WithName("Demonstration")
-    .WithTags("Demonstration")
-    .WithOpenApi();
+app.MapApiRoutes();
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
